@@ -1,0 +1,489 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage[
+    a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm, marginparwidth=1.75cm
+]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{enumitem}
+\usepackage[
+    colorlinks=true, 
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+]{hyperref}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{pdfpages}
+\usepackage{multirow}
+\usepackage[
+    tocskip=0.1\baselineskip, skip=0.7\baselineskip, parfill
+]{parskip}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+
+% Kopf- und Fußzeile
+\pagestyle{fancy}
+\fancyhf{}
+%Kopfzeile mittig mit Kaptilname
+\fancyhead[C]{\nouppercase{\leftmark}}
+%Fußzeile links bzw. innen
+\fancyfoot[L]{\versuchsname}
+%Fußzeile mittig (Seitennummer)
+\fancyfoot[R]{\thepage}
+\renewcommand{\footrulewidth}{0.35pt}
+
+% Hilfs-Commands für Gleichungen
+\newcommand{\widespace}{\enspace}
+\newcommand{\wideeq}{\widespace = \widespace}
+\newcommand{\wideneq}{\widespace \neq \widespace}
+\newcommand{\wideapprox}{\widespace \approx \widespace}
+\newcommand{\wideleq}{\widespace \leq \widespace}
+\newcommand{\widegeq}{\widespace \geq \widespace}
+\newcommand{\widele}{\widespace \le \widespace}
+\newcommand{\widege}{\widespace \ge \widespace}
+\newcommand{\wideiff}{\widespace \iff \widespace}
+\newcommand{\wideimplies}{\widespace \implies \widespace}
+\newcommand{\pd}[2]{
+    \frac{\partial #1}{\partial #2}
+}
+\newcommand{\result}[2]{
+    #1 \, \text{#2}
+}
+
+% Markieren von verwendetem Code
+\definecolor{codebg}{RGB}{230, 240, 255}
+\newcommand{\coderef}[1]{
+    \text{
+        \enspace
+        \footnotesize
+        \colorbox{codebg}{\texttt{#1()}}
+    }
+}
+
+% Formatieren von Code im Anhang
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+% Formatierung von Absätzen
+\renewcommand{\baselinestretch}{1.2}
+
+\allowdisplaybreaks
+
+% Allgemeine Infos
+\newcommand{\versuchsname}{
+    FHV - Franck-Hertz-Versuch
+}
+\newcommand{\githuburl}{
+    \url{https://github.com/WeinSim/P3B/FHV}
+}
+
+% Titel und Autor
+\title{\versuchsname}
+\author{Simon Weinzierl, Yannic Werner}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+    Physikalisches Fortgeschrittenenpraktikum P3B
+    nach der Studienordnung für Studienbeginn bis WS 2022/23
+\end{center}
+
+\vspace*{6cm}
+
+\begin{center}
+    \footnotesize
+    Alle Teile dieses Dokuments (Vorbereitung, Protokoll, Auswertung) wurden
+    von beiden Teilnehmern in gleichen Teilen und ohne fremde Hilfe bearbeitet.
+    Sofern fremde Quellen verwendet wurden, sind diese angegeben.
+
+    Der \LaTeX-Code ist auf GitHub unter \githuburl verfügbar.
+    
+    © Alle Rechte vorbehalten.
+\end{center}
+
+ % LMU-Siegel
+\AddToShipoutPicture*{
+    \put(315,0){
+        \parbox[b][5cm]{5cm}{
+            \includegraphics[width=10cm]{Abbildungen/Siegel_LMU.pdf}
+        }
+    }
+}
+
+\newpage
+
+% Inhaltsverzeichnis
+\tableofcontents
+
+\newpage
+
+% Literatur
+\bibliographystyle{alpha}
+\bibliography{literatur}
+
+\newpage
+
+\section{Vobereitung}
+
+\subsection{Physikalischer Hintergrund}
+
+\subsubsection{Elektronenkonfiguration}
+
+Elektronen werden in einem Atom (im Schrödinger-Bild ohne Spin) durch die drei
+Quantenzahlen $n$, $l$ und $m$ beschrieben:
+$n$ ist die Hauptquantenzahl und hat die größte Auswirkung auf
+die Energie des Elektrons. $l$ wird als Drehimpulsquantenzahl bezeichnet und
+gibt den Bahndrehimpuls an ($L^2 = l (l + 1) \hbar^2$).
+$m$ ist die magnetische Quantenzahl und gibt die Komponente des Drehimpulses
+entlang einer beliebigen Achse (i.d.R. der $z$-Achse) an.
+Für die Wertebereiche von $l$ und $m$ gelten die Regeln
+$0 \leq l < n$ und $-l \leq m \leq l$.
+% Die wahrscheinlichen Aufenthaltsbereiche der Elektronen mit verschiedenen
+% Quantenzahlen werden als Orbitale bezeichnet.
+
+Das Pauli-Prinzip besagt, dass zwei Elektronen in einem Atom nie den gleichen
+Satz an Quantenzahlen besitzen können. Hier muss jedoch der Spin mit berücksichtigt
+werden. Weil die Spin-Quantenzahl $s$ für Elektronen stets die Werte
+$1/2$ oder $-1/2$ annimmt, kann also jede Kombination von Quantenzahlen
+$(n, l, m)$ von höchstens zwei Elektronen besetzt werden. Diese haben dann einen
+entgegengesetzten Spin. In einem Atom mit Kernladungszahl $Z > 2$
+befinden sich also selbst im Grundzustand des Atoms nur zwei Elektronen
+im niedrigsten Energiezustand. Die übrigen $Z - 2$ Elektronen verteilen sich
+auf höhere Energieniveaus, wobei niedrigere Energienievaus stets vor höhreren
+aufgefüllt werden. Die genaue Besetzung dieser Energienviveaus bezeichnet
+man als die Elektronenkonfiguration.
+In der üblichen Schreibweise wird für jede Kombination an Haupt- und
+Drehimpulsquantenzahl die Anzahl der Elektronen angegeben, die diese
+Quantenzahlen besitzen. Die Drehimpulsquantenzahl $l$ wird dabei als Buchstabe
+kodiert: $0 \to \text s, \, 1 \to \text p, \, 2 \to \text d, \, 3 \to \text f,
+\, 4 \to \text g$. Die Hauptquantenzahl $n$ wird vor diesen Buchstaben geschrieben
+und die Anzahl der Elektronen als Exponent. So werden alle Elektronen
+in aufsteigender Energie aufgeschrieben.
+
+
+\subsubsection{Termschema und Grotrian-Diagramm}
+
+Für die Erklärung einiger quantenmechanischen Phänomene sind genauere Informationen
+über die Elektronen in einem Atom notwendig als nur die Elektronenkonfiguration.
+Insbesondere sind der Gesamtdrehimpuls $J$, welcher die Summe aus Bahn- und
+Spindrehimpuls ist, und die sog. Multiplizität, die die Anzahl an möglichen
+Spin-Projektionen auf die $z$-Achse angibt, relevant.
+Die Multiplizität berechnet sich als $(2S + 1)$, wobei $S$ die Summe
+der Spin-Porjektionen der einzelnen Elektronen im Atom ist.
+Diese Informationen werden kompakt in der sog. Termschreibweise angegeben:
+\[  
+    {}^{2 S + 1} L_J.
+\]
+Zustände mit Multiplizität 1 werden als Singulett-Zustände bezeichnet,
+Zustände mit Multiplizität 2 als Dublett, mit Multiplizität 3 als Triplett, etc.
+Durch die Feinstruktur (s. \ref{LS-Kopplung}) werden Zustände mit gleichen Termen 
+aufgespalten; die Anzahl an entstehenden Linien ist durch die Multiplizität gegeben.
+Die Multiplizität ist außerdem deswegen relevant, weil nach den Hund'schen
+Regeln Terme mit höherer Multiplizität eine geringere Energie besitzen.
+Dadurch wird die Reihenfolge bestimmt, mit der einzelne Subschalen aufgefüllt werden:
+Zuerst wird jeder Wert von $m$ von einem Elektron besetzt.
+Wenn alle $2l + 1$ Drehimpulsprojektionen besetzt sind (und damit $2l + 1$
+ungepaarte Elektronen mit gleichgeritetem Spin vorliegen) werden die
+magnetischen Quantenzahlen doppelt besetzt (von Elektronen mit entgegengesetztem
+Spin, um das Pauli-Prinzip nicht zu verletzen).
+
+Vollständig gefüllte Subschalen müssen für die Bestimmung eines Terms nicht
+berücksichtigt werden, weil sie nichts zum Gesamtdrehimpuls und -Spin beitragen.
+Für jedes Elektron mit Quantenzahlen $(n, l, m)$ gibt es ein Elektron mit
+Quantenzahlen $(n, l, -m)$ und je zwei Elektronen mit den selben Quantenzahlen
+haben entgegengesetzten Spin.
+
+Verschiedene Zustände in einem Atom werden also von verschiedenen Termen beschrieben.
+Somit kann jedem Term ein Energieniveau zugeordnet werden. Diese Energieniveaus
+können in einem Grotrian-Diagramm (s. \autoref{Grotrian_Helium}) aufgetragen werden.
+Dabei werden Zustände mit unterschiedlicher Multiplizität
+(z.B. Singulett- und Triplett-Zustände) meist voneinander getrennt aufgetragen,
+weil insbesondere bei leichten Atomen Übergänge zwischen Zuständen unterschiedlicher 
+Multiplizität verboten sind. Jeder Übergang entspricht einer charakteristischen
+Energie (und damit einer charakteristischen beobachtbaren Wellenlänge),
+die mithilfe von Spektroskopie gemessen werden können, wodurch Rückschlüsse
+über die Eigenschaften der untersuchten Probe gezogen werden können.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{Abbildungen/Termschema_Demtröder.png}
+    \caption{Grotrian-Diagramm für Helium. Aus \cite[183]{demtröder}}
+    \label{Grotrian_Helium}
+\end{figure}
+
+
+\subsubsection{LS-Kopplung}
+\label{LS-Kopplung}
+
+Der Spin $\mathbf s$ (welcher in der Schrödingergleichung nicht auftritt, sondern
+erst durch Berücksichtigung relativistischer Effekte aus der Dirac-Theorie stammt)
+verleiht den Elektronen ein kleines intrinsisches magnetisches Dipolmoment
+$\boldsymbol \mu_S = g_s (\mu_B / \hbar) \mathbf s$. Dabei hat $g_s$ einen Wert
+von $\approx 2$ und wird Landé-Faktor genannt.
+Dieses magnetische Moment wechselwirkt mit dem magnetischen Moment des Atomkerns,
+welches aus Sicht des Elektrons durch dessen Bahndrehimpuls erzeugt wird.
+Diese Interaktion wird als LS-Kopplung bezeichnet.
+Es ergibt sich eine Energiekorrektur der Terme, die proportional zum Skalarprodukt
+$\mathbf L \cdot \mathbf s$ des Bahn- und Spindrehimpuls ist.
+Weil in einem Mehrelektronensystem mit Gesamtspin $S$ die Projektion des Spins
+auf die $z$-Achse (und damit auch das Skalaprodukt
+$\mathbf L \cdot \mathbf S$) genau $2S + 1$ verschiedene Werte annehmen kann,
+spaltet sich das Energieniveau eines Terms mit Multiplizität $M$ in $M$ verschiedene
+voneinander getrennte Niveaus auf.
+Terme mit gleichgerichtetem Bahndrehimpuls und Spin besitzen dabei die
+niedrigste Energie.
+Diese Aufspaltung wird als Feinstruktur bezeichnet.
+
+\cite[155--161]{demtröder}
+
+
+\subsubsection{Stoßionisation}
+
+Stößt ein Elektron mit genügend kinetischer Energie auf ein (neutrales) Atom $A$,
+so kann es passieren, dass aus $A$ ein weiteres Elektron herausgeschlagen wird.
+Nach dem Stoßprozess liegt das positiv geladene Ion $A^+$ vor, sowie zwei
+freie Elektronen. Dieser Prozess kann als Reaktionsgleichung geschrieben werden:
+\[
+    A + e^- \quad \longrightarrow \quad A^+ + 2 e^-.
+\]
+Für die Energiebilanz dieser Reaktion muss gelten
+\[
+    E_\text{kin} + E_B \wideeq E_1 + E_2,
+\]
+wobei $E_\text{kin}$ die kinetische Energie des Elektrons vor dem Stoß ist,
+$E_{1/2}$ die kinetischen Energien der beiden Elektronen nach dem Stoß
+und $E_B$ die Bindungsenergie des ursprünglich gebundenen Elektrons im Atom.
+
+Die Wahrscheinlichkeit, dass ein neutrales Atom bei einem Stoß mit einem Elektron
+tatsächlich ionisiert wird, hängt von der Atomsorte, der kinetischen Energie des
+freien Elektrons und der Bindungsenergie des gebundenen Elektrons ab.
+Sie wird mithilfe des Ionisierungsquerschnitts $\sigma$ beschrieben.
+$\sigma$ ist abhängig von der kinetischen Energie des freien Elektrons und gibt
+die Querschnittsfläche um das Atom $A$ an, durch die das freie Elektron
+fliegen muss.
+
+\cite[34--35]{demtröder}
+
+
+\subsubsection{Unselbstständige Dunkel- bzw. Townsend-Entladung}
+
+Die Townsend-Entladung ist eine Art der Gasentladung, bei der sich ein geladener
+Plattenkondensator über ein Gas, welches sich zwischen dessen Platten befindet,
+entladen wird. Im Regime der unselbstständigen Townsend-Entladung
+wird eine externe Elektronenquelle benötigt (etwa eine UV-Lampe, die durch den
+Photoelektrischen Effekt Elektronen an der Kathode freisetzt).
+Die Elektronen werden im elektrischen Feld des Kondensator richtung Anode
+beschleunigt. Dabei können sie auf neutrale Gasteilchen treffen und diese
+ionisieren, wodurch weitere Elektronen freigesetzt werden.
+Dadurch entsteht ein Lawinen-Effekt, weil entlang des Kondensators immer mehr
+Elektronen freigesetzt werden.
+Die dabei entstehenden positiv geladenen Ionen werden zur Kathode hin beschleunigt
+und können beim Auftreffen auf dieser weitere Elektronen freisetzen.
+Wenn auf diese Art und Weise genügend freie Elektronen an der Kathode entstehen,
+um den Prozess von alleine aufrecht zu erhalten, spricht man von der selbstständigen
+Townsend-Entladung.
+
+\cite[18--21]{koubek}
+
+
+\subsubsection{Erklärung des 1. und 2. Townsend-Koeffizienten}
+
+Der Strom, der bei der Townsend-Entladung zwischen den Platten des Kondensators
+fließt, kann mit der Formel
+\[
+    \frac{I}{I_0} \wideeq
+    \frac{
+        e^{\alpha d}
+    }{
+        1 - \lambda (e^{\alpha d} - 1)
+    }
+    % Quelle?
+\]
+berechnet werden.
+
+\cite[18--21]{koubek}
+
+
+\subsection{Aufgabe zur Vorbereitung}
+
+\newpage
+
+\section{Veruschsablaufplan}
+
+\subsection{Benötigte Materialien}
+    \begin{enumerate}[label=\arabic*.]
+        \item Eins
+        \item Zwei
+    \end{enumerate}
+
+\newpage
+
+\subsection{Teilversuch 1: Bragg-Reflexion von Röntgenstrahlung des Molybdän an einem NaCl-Eiskristall}
+\begin{enumerate}[label = (\Roman*)]
+    \item Ziel: ...
+    
+    \item Versuchsmethode: ...
+    
+    \item Versuchsskizze:
+    
+        \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\linewidth]{Bild}
+        \caption{Versuchsskizze Teilversuch 1}
+        \end{figure}
+
+    \item Planung der Durchführung
+        \begin{itemize}
+            \item eins
+            \item zwei
+        \end{itemize}
+
+    \item Vorüberlegungen zur Durchführung \& Auswertung
+        \begin{itemize}
+            \item eins
+            \item zwei
+        \end{itemize}
+    
+\end{enumerate}
+
+\newpage
+
+\subsection{Teilversuch 2: Energiespektrum einer Röntgenröhre in Abhängigkeit der Spannung}
+\begin{enumerate}[label = (\Roman*)]
+    \item Ziel: 
+    
+    \item Versuchsmethode: 
+    
+    \item Versuchsskizze:
+    
+        \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\linewidth]{Bild}
+        \caption{Versuchsskizze Teilversuch 2}
+        \end{figure}
+
+    \item Planung der Durchführung
+        \begin{itemize}
+           \item eins
+           \item zwei
+        \end{itemize}
+
+    \item Vorüberlegungen zur Durchführung \& Auswertung
+        \begin{itemize}
+            \item eins
+            \item zwei
+        \end{itemize}
+        
+\end{enumerate}
+
+
+\newpage
+
+\section{Versuchsprotokoll}
+
+Auf den folgenden Seiten befindet sich das eingescannte Versuchsprotokoll.
+Alle Daten wurden selbst gemessen. Sofern fremde Hilfe benutzt wurde,
+wurde sie klar gekennzeichnet.
+
+Messunsicherheiten wurden angegeben und folgend in der Auswertung verwendet.
+Alle weiteren Rechnungen und Analysen finden in der Versuchsasuwertung statt.
+
+\includepdf[pages={...}, pagecommand={\thispagestyle{scrheadings}}, frame=true]{[Name.pdf]]}
+
+\newpage
+
+\section{Auswertung}
+
+    \subsection{Teilversuch 1: Bragg-Reflexion von Röntgenstrahlung des Molybdän an einem NaCl-Eiskristall}
+
+    \newpage
+
+\section{Anmerkung: Graphische Auswertung und Fehlerfortpflanzung mit Python-Code}
+
+Alle Berechnungen inkl. Fehlerbestimmung wurden mit einem selbstgeschriebenen
+Python-Skript durchgeführt, um uns die Arbeit zu erleichtern und Fehler zu
+vermeiden. Alle Ergebnisse, die auf diese Weise zustande gekommen sind,
+sind entsprechend mit einem \colorbox{codebg}{blauen Hintergrund} gekennzeichnet;
+s. folgendes Beispiel:
+
+$F = m a = 20 \text{kg} \cdot 9.81 \frac{\text m}{\text s^2} = 19.62 \text N$
+
+$\Delta F = 0.42 \text N \approx 0.5 \text N$
+
+$\implies F = (19.6 \pm 0.5) \text N \coderef{tv1}$
+
+Dies soll bedeuten, dass die Berechnung des Wertes und der Unsicherheit von der
+Python-Funktion namens \verb|tv1| durchgeführt wird.
+Die Unsicherheit wird mithilfe der Gauß'schen Fehlerfortpflanzung berechnet.
+
+Außerdem verwenden wir Python (in Kombination mit \texttt{matplotlib})
+zum Erstellen von Graphen. \texttt{numpy} wird (unter anderem) zum Bestimmen der
+Ausgleichsgeraden verwendet. Zum Bestimmen des Fehlerstreifens wird eine
+selbstgeschriebene Funktion verwendet, die das im AMW-Skript veschriebene Verfahren
+implementiert (2 äquidistante, zur Ürsprünglichen parallelen Geraden finden,
+zwischen denen 2/3 der Messpunkte liegen. Unsicherheit der Steigung:
+halbe Differenz der Steigung der "Diagonalen" durch den Fehlerstreifen).
+Graphen sind zusätzlich zum Namen der Funktion, in der sie erstellt werden,
+mit dem Dateinamen versehen, unter dem sie abgespeichert werden.
+
+Die Funktionen zu den einzelnen Teilversuchen befinden sich in der Datei
+\verb|Main.py|. Der Code zum Berechnen von bestimmten Ausdrücken
+inkl. deren Unsicherheit befindet sich in der Datei \verb|Expressions.py|.
+Der Code zum Bestimmen der Unsicherheit der Ausgleichsgeraden
+befindet sich in der Datei \\ \verb|LinRegUncertainty.py|.
+Das Output des Codes befindet sich in der Datei \verb|output.txt|.
+
+Der Code ist sowohl auf GitHub verfügbar (\githuburl) als auch auf den folgenden
+Seiten zu finden und kann mit dem Befehl \texttt{python Main.py} ausgeführt werden.
+(Manche Sonderzeichen im Code (ä, ö, ü, $\Delta$, etc.) werden von \LaTeX nicht
+richtig erkannt, deswegen kann der Code auf den nachfolgenden Seiten an einigen
+Stellen unvollständig erscheinen. Auf GitHub wird aber alles richtig angezeigt.)
+
+\newpage
+
+
+\verb|Main.py|:
+\lstinputlisting[language=Python]{Code/Main.py}
+\newpage
+
+\verb|Expressions.py|:
+\lstinputlisting[language=Python]{Code/Expressions.py}
+\newpage
+
+\verb|LinRegUncertainty.py|:
+\lstinputlisting[language=Python]{Code/LinRegUncertainty.py}
+\newpage
+
+Output:
+\lstinputlisting{Code/Output.txt}
+
+\end{document}
