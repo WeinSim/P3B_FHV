@@ -444,21 +444,6 @@ Die Unsicherheit wird mithilfe der Gauß'schen Fehlerfortpflanzung berechnet.
 Außerdem wird das Python-Package \texttt{matplotlib} zum Erstellen
 von Graphen verwendet.
 
-% Außerdem verwenden wir Python (in Kombination mit \texttt{matplotlib})
-% zum Erstellen von Graphen. \texttt{numpy} wird (unter anderem) zum Bestimmen der
-% Ausgleichsgeraden verwendet. Zum Bestimmen des Fehlerstreifens wird eine
-% selbstgeschriebene Funktion verwendet, die das im AMW-Skript veschriebene Verfahren
-% implementiert (2 äquidistante, zur Ürsprünglichen parallelen Geraden finden,
-% zwischen denen 2/3 der Messpunkte liegen. Unsicherheit der Steigung:
-% halbe Differenz der Steigung der "Diagonalen" durch den Fehlerstreifen).
-% Graphen sind zusätzlich zum Namen der Funktion, in der sie erstellt werden,
-% mit dem Dateinamen versehen, unter dem sie abgespeichert werden.
-
-% Die Funktionen zu den einzelnen Teilversuchen befinden sich in der Datei
-% \verb|Main.py|. Der Code zum Berechnen von bestimmten Ausdrücken
-% inkl. deren Unsicherheit befindet sich in der Datei \verb|Expressions.py|.
-% Das Output des Codes befindet sich in der Datei \verb|output.txt|.
-
 Der verwendete Code ist sowohl auf GitHub verfügbar (\githuburl) als auch auf den
 folgenden Seiten zu finden und kann mit dem Befehl \texttt{python Main.py}
 ausgeführt werden. Für eine genauere Beschreibung des Codes siehe die README-Datei
