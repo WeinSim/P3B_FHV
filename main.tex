@@ -434,36 +434,35 @@ Python-Skript durchgeführt, um uns die Arbeit zu erleichtern und Fehler zu
 vermeiden. Alle Ergebnisse, die auf diese Weise zustande gekommen sind,
 sind entsprechend mit einem \colorbox{codebg}{blauen Hintergrund} gekennzeichnet;
 s. folgendes Beispiel:
-
-$F = m a = 20 \text{kg} \cdot 9.81 \frac{\text m}{\text s^2} = 19.62 \text N$
-
-$\Delta F = 0.42 \text N \approx 0.5 \text N$
-
-$\implies F = (19.6 \pm 0.5) \text N \coderef{tv1}$
-
+\[
+    F \wideeq ma \wideeq \result{20}{kg} \cdot 9,81 \, \frac{\text m}{\text s^2}
+    \wideeq \result{(19,62 \pm 0,5)}{N} \coderef{tv1}
+\]
 Dies soll bedeuten, dass die Berechnung des Wertes und der Unsicherheit von der
 Python-Funktion namens \verb|tv1| durchgeführt wird.
 Die Unsicherheit wird mithilfe der Gauß'schen Fehlerfortpflanzung berechnet.
+Außerdem wird das Python-Package \texttt{matplotlib} zum Erstellen
+von Graphen verwendet.
 
-Außerdem verwenden wir Python (in Kombination mit \texttt{matplotlib})
-zum Erstellen von Graphen. \texttt{numpy} wird (unter anderem) zum Bestimmen der
-Ausgleichsgeraden verwendet. Zum Bestimmen des Fehlerstreifens wird eine
-selbstgeschriebene Funktion verwendet, die das im AMW-Skript veschriebene Verfahren
-implementiert (2 äquidistante, zur Ürsprünglichen parallelen Geraden finden,
-zwischen denen 2/3 der Messpunkte liegen. Unsicherheit der Steigung:
-halbe Differenz der Steigung der "Diagonalen" durch den Fehlerstreifen).
-Graphen sind zusätzlich zum Namen der Funktion, in der sie erstellt werden,
-mit dem Dateinamen versehen, unter dem sie abgespeichert werden.
+% Außerdem verwenden wir Python (in Kombination mit \texttt{matplotlib})
+% zum Erstellen von Graphen. \texttt{numpy} wird (unter anderem) zum Bestimmen der
+% Ausgleichsgeraden verwendet. Zum Bestimmen des Fehlerstreifens wird eine
+% selbstgeschriebene Funktion verwendet, die das im AMW-Skript veschriebene Verfahren
+% implementiert (2 äquidistante, zur Ürsprünglichen parallelen Geraden finden,
+% zwischen denen 2/3 der Messpunkte liegen. Unsicherheit der Steigung:
+% halbe Differenz der Steigung der "Diagonalen" durch den Fehlerstreifen).
+% Graphen sind zusätzlich zum Namen der Funktion, in der sie erstellt werden,
+% mit dem Dateinamen versehen, unter dem sie abgespeichert werden.
 
-Die Funktionen zu den einzelnen Teilversuchen befinden sich in der Datei
-\verb|Main.py|. Der Code zum Berechnen von bestimmten Ausdrücken
-inkl. deren Unsicherheit befindet sich in der Datei \verb|Expressions.py|.
-Der Code zum Bestimmen der Unsicherheit der Ausgleichsgeraden
-befindet sich in der Datei \\ \verb|LinRegUncertainty.py|.
-Das Output des Codes befindet sich in der Datei \verb|output.txt|.
+% Die Funktionen zu den einzelnen Teilversuchen befinden sich in der Datei
+% \verb|Main.py|. Der Code zum Berechnen von bestimmten Ausdrücken
+% inkl. deren Unsicherheit befindet sich in der Datei \verb|Expressions.py|.
+% Das Output des Codes befindet sich in der Datei \verb|output.txt|.
 
-Der Code ist sowohl auf GitHub verfügbar (\githuburl) als auch auf den folgenden
-Seiten zu finden und kann mit dem Befehl \texttt{python Main.py} ausgeführt werden.
+Der verwendete Code ist sowohl auf GitHub verfügbar (\githuburl) als auch auf den
+folgenden Seiten zu finden und kann mit dem Befehl \texttt{python Main.py}
+ausgeführt werden. Für eine genauere Beschreibung des Codes siehe die README-Datei
+auf GitHub sowie die Kommentare im Code.
 (Manche Sonderzeichen im Code (ä, ö, ü, $\Delta$, etc.) werden von \LaTeX nicht
 richtig erkannt, deswegen kann der Code auf den nachfolgenden Seiten an einigen
 Stellen unvollständig erscheinen. Auf GitHub wird aber alles richtig angezeigt.)
@@ -477,10 +476,6 @@ Stellen unvollständig erscheinen. Auf GitHub wird aber alles richtig angezeigt.
 
 \verb|Expressions.py|:
 \lstinputlisting[language=Python]{Code/Expressions.py}
-\newpage
-
-\verb|LinRegUncertainty.py|:
-\lstinputlisting[language=Python]{Code/LinRegUncertainty.py}
 \newpage
 
 Output:
